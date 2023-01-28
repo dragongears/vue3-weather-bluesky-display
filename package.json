@@ -1,0 +1,64 @@
+{
+  "name": "vue3-weather-instagram-display",
+  "main": "src/background.js",
+  "version": "0.1.0",
+  "description": "Electron Vue app",
+  "author": "Art Dahm <art@dahm.com>",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
+    "build and electron:start": "vite build &&NODE_ENV=production electron .",
+    "electron:start": "electron .",
+    "rsync": "rsync -vaz --rsh=\"ssh -l pi\" ~/Dropbox/Projects/node/vue3-weather-instagram-display 192.168.0.81:/home/pi --exclude=node_modules",
+    "build-icon": "npx electron-icon-builder --input=./public/icon.png --output=build --flatten",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "dependencies": {
+    "autoprefixer": "^10.4.13",
+    "axios": "^1.2.3",
+    "sass": "^1.57.1",
+    "vue": "^3.2.45"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.0.0",
+    "electron": "^22.1.0",
+    "electron-builder": "^23.6.0",
+    "electron-devtools-installer": "^3.2.0",
+    "electron-icon-builder": "^2.0.1",
+    "vite": "^4.0.0"
+  },
+  "build": {
+    "productName": "Vue3 Weather Instagram Display",
+    "appId": "com.dragongears.vue3-weather-instagram-display",
+    "appImage": {},
+    "dmg": {
+      "contents": [
+        {
+          "x": 410,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        },
+        {
+          "x": 130,
+          "y": 150,
+          "type": "file"
+        }
+      ]
+    },
+    "mac": {
+      "icon": "dist_electron/icons/icon.icns"
+    },
+    "win": {
+      "icon": "dist_electron/icons/icon.ico"
+    },
+    "linux": {
+      "icon": "dist_electron/icons",
+      "category": "Utility"
+    }
+  }
+}
