@@ -1,0 +1,45 @@
+# https://www.electron.build/configuration/configuration
+appId: com.dragongears.vue3-weather-instagram-display
+copyright: Copyright 2016-2023 Arthur J. Dahm III
+productName: vue3WeatherInstagramDisplay
+asar: false
+mac:
+  icon: build/icons/icon.icns
+  category: public.app-category.developer-tools
+  hardenedRuntime: true
+  entitlements: "entitlements.mac.plist"
+  entitlementsInherit: "entitlements.mac.plist"
+  artifactName: "${productName}-${version}.${ext}"
+  target:
+    - dmg
+dmg:
+  background: assets/dmg/background.tiff
+  icon: build/icons/icon.icns
+  iconSize: 110
+  contents:
+    - x: 140
+      y: 225
+    - x: 415
+      y: 225
+      type: link
+      path: /Applications
+  window:
+    width: 540
+    height: 405
+win:
+  icon: build/icons/icon.ico
+  target:
+    - zip
+    - nsis
+    - portable
+linux:
+  icon: assets/iconset
+  target:
+    - AppImage
+    # - deb
+  category: Utility
+  packageCategory: utils
+  executableName: vue3-weather-instagram-display
+  synopsis: Vue3 Weather Instagram Display
+appImage:
+  artifactName: ${productName}-${version}-${arch}.${ext}

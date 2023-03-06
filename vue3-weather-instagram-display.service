@@ -1,0 +1,20 @@
+[Unit]
+Description=Electron Vue Weather and Instagram Display
+Requires=local-fs.target
+After=network.target
+
+[Service]
+User=pi
+Group=pi
+Type=idle
+TimeoutSec=infinity
+Restart=always
+RestartSec=10s
+KillMode=process
+Environment=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+Environment=NODE_ENV=production
+WorkingDirectory=/home/pi/vue3-weather-instagram-display
+ExecStart=startx /home/pi/vue3-weather-instagram-display/dist/vue3WeatherInstagramDisplay-0.1.0-armv7l.AppImage
+
+[Install]
+WantedBy=multi-user.target
