@@ -2,9 +2,6 @@ import {app, BrowserWindow, Menu, shell} from 'electron';
 import {join} from 'path';
 import {URL} from 'url';
 
-console.log('>>>> MODE ', import.meta.env.MODE);
-console.log('>>>> PROD ', import.meta.env.PROD);
-console.log('>>>> DEV ', import.meta.env.DEV);
 const isSingleInstance = app.requestSingleInstanceLock();
 const isDevelopment = import.meta.env.MODE === 'development';
 const electronConfig = {
@@ -34,7 +31,6 @@ if (!isSingleInstance) {
 }
 
 app.commandLine.appendSwitch("disable-software-rasterizer");
-// app.commandLine.appendSwitch('disable-gpu');
 app.disableHardwareAcceleration();
 
 // Install "Vue.js devtools"

@@ -12,12 +12,13 @@
   "main": "packages/main/dist/index.cjs",
   "scripts": {
     "build": "cross-env MODE=development node scripts/build.js",
-    "build-prod": "cross-env MODE=production node scripts/build.js",
+    "build:prod": "cross-env MODE=production node scripts/build.js",
     "compile": "electron-builder build",
-    "compile-rpi": "electron-builder build --linux --armv7l",
+    "compile:rpi": "electron-builder build --linux --armv7l",
     "pretest": "npm run build",
     "test": "node tests/app.spec.js",
     "watch": "node scripts/watch.js",
+    "serve": "vite serve packages/renderer",
     "lint": "eslint . --ext js,ts,vue",
     "rsync": "rsync -vaz --rsh=\"ssh -l pi\" ~/Dropbox/Projects/node/vue3-weather-instagram-display 192.168.0.81:/home/pi --exclude=node_modules"
   },
