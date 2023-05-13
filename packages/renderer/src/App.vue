@@ -1,5 +1,5 @@
 <template>
-  <main id="app">
+  <main>
     <section class="left-side">
       <DateAndTime></DateAndTime>
       <WeatherPanel
@@ -74,10 +74,10 @@ main {
   display: flex;
   flex-direction: column;
   min-width: 220px;
-  width: 568px;
+  width: 100%;
 }
 
 .right-side {
-    width: 100%;
+    width: 1129px;
 }
 </style>

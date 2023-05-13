@@ -169,7 +169,7 @@ onMounted(() =>{
 
 .slide__img {
   height: auto;
-  max-height: 440px;
+  max-height: 448px;
   max-width: 100%;
 }
 
