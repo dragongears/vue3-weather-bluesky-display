@@ -9,15 +9,15 @@
       <video
         v-if="isVideo(image.media_type)"
         class="slide__video"
-        :ref="`refImg${index}`"
         muted
+        :ref="el => { slides[index] = el }"
         @ended="videoEnded"
       >
         <source :src="image.media_url" type="video/mp4" />
         Sorry, your browser doesn't support embedded videos.
       </video>
 
-      <img v-else class="slide__img" :ref="`refImg${index}`" :src="image.media_url" alt="" />
+      <img v-else class="slide__img" :ref="el => { slides[index] = el }" :src="image.media_url" alt="" />
     </li>
   </ul>
   <div v-else>
@@ -54,6 +54,7 @@ let images = ref([]);
 let max = ref(0);
 let message = ref('Waiting for Instagram data');
 let videoTimeout = ref(null);
+const slides = ref([]);
 
 function getImages() {
   const fields =
@@ -108,11 +109,10 @@ function isVideo(type) {
 function nextSlide() {
   showing.value = showing.value <= 0 ? max.value - 1 : showing.value - 1;
   const typeShowing = images.value[showing.value].media_type;
-  const imgRef = `refImg${showing.value}`;
 
   if (isVideo(typeShowing)) {
     videoTimeout.value = setTimeout(videoEnded, 3 * 60 * 1000);
-    this.$refs[imgRef][0].play();
+    slides.value[showing.value].play();
   } else {
     setTimeout(nextSlide, props.slideshowInterval);
   }

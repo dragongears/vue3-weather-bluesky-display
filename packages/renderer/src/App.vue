@@ -17,7 +17,7 @@
     <section class="right-side">
       <instagram-image
         :token="instagramToken"
-        :slideshow-max-images="10"
+        :slideshow-max-images="20"
       ></instagram-image>
     </section>
   </main>

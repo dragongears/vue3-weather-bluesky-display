@@ -37,11 +37,12 @@ app.disableHardwareAcceleration();
 if (isDevelopment) {
   app.whenReady()
     .then(() => import('electron-devtools-installer'))
-    .then(({default: installExtension, VUEJS3_DEVTOOLS}) => installExtension(VUEJS3_DEVTOOLS, {
-      loadExtensionOptions: {
-        allowFileAccess: true,
-      },
-    }))
+    .then(({default: installExtension, VUEJS3_DEVTOOLS}) => installExtension('nhdogjmejiglipccpnnnanhbledajbpd', {
+    loadExtensionOptions: {
+      allowFileAccess: true,
+      // forceDownload: true, // 👈
+    },
+  }))
     .catch(e => console.error('Failed install extension:', e));
 }
 
