@@ -23,7 +23,6 @@
 import WeatherCurrent from './WeatherCurrent.vue';
 import WeatherForecast from './WeatherForecast.vue';
 import { onMounted, ref } from 'vue';
-import axios from 'axios';
 import capitalize from '../utils/capitalize';
 
 const props = defineProps({
@@ -49,30 +48,41 @@ const iconColor = ref('#35495e');
 let message = ref('Waiting for weather data');
 let weather = ref(null);
 
+
+async function fetchWeather() {
+  try {
+    const response = await fetch(`https://api.openweathermap.org/data/3.0/onecall?lat=${props.latitude}&lon=${props.longitude}&appid=${props.apiKey}&units=imperial&exclude=minutely,alerts`);
+    let responseData = null;
+
+    if (response.status === 200) {
+      responseData = await response.json();
+    } else {
+      throw new Error(`${response.status}: ${response.statusText}`);
+    }
+
+    return responseData;
+  } catch (error) {
+    console.error('Error fetching weather data:', error.message);
+    throw error;
+  }
+}
+
 function getWeather() {
-  axios
-    .get(
-      `https://api.openweathermap.org/data/2.5/onecall?lat=${props.latitude}&lon=${props.longitude}&appid=${props.apiKey}&units=imperial&exclude=minutely,alerts`,
-    )
-    .then((response) => {
-      if (response.status === 200) {
-        weather.value = response.data;
-      } else {
-        weather.value = null;
-        message.value = `${response.status}: ${response.statusText}`;
-      }
-      emit('updated', Date.now());
-      if (props.updateInterval) {
-        setTimeout(getWeather, props.updateInterval * 1000);
-      }
-    })
-    .catch((e) => {
-      weather.value = null;
-      message.value = `${e.message} - ${new Date().toString()}`;
-      if (props.updateInterval) {
-        setTimeout(getWeather, props.updateInterval * 1000);
-      }
-    });
+  fetchWeather()
+  .then((response) => {
+    weather.value = response;
+    emit('updated', Date.now());
+    if (props.updateInterval) {
+      setTimeout(getWeather, props.updateInterval * 1000);
+    }
+  })
+  .catch((e) => {
+    weather.value = null;
+    message.value = `${e.message} - ${new Date().toString()}`;
+    if (props.updateInterval) {
+      setTimeout(getWeather, props.updateInterval * 1000);
+    }
+  });
 }
 
 onMounted(() =>{
