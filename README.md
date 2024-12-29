@@ -213,7 +213,7 @@ sudo reboot
 
 ```sh
 [Unit]
-Description=Electron Vue Weather and bluesky Display
+Description=Electron Vue Weather and Bluesky Display
 Requires=local-fs.target
 After=network.target
 
