@@ -1,5 +1,5 @@
 {
-  "name": "vue3-weather-instagram-display",
+  "name": "vue3-weather-bluesky-display",
   "version": "0.2.0",
   "description": "Electron Vue app",
   "author": "Art Dahm <art@dahm.com>",
@@ -20,7 +20,7 @@
     "watch": "node scripts/watch.js",
     "serve": "vite serve packages/renderer",
     "lint": "eslint . --ext js,ts,vue",
-    "rsync": "rsync -vaz --rsh=\"ssh -l pi\" ~/Dropbox/Projects/node/vue3-weather-instagram-display 192.168.0.81:/home/pi --exclude=node_modules"
+    "rsync": "rsync -vaz --rsh=\"ssh -l pi\" ~/Dropbox/Projects/node/vue3-weather-bluesky-display 192.168.0.81:/home/pi --exclude=node_modules"
   },
   "browserslist": [
     "Chrome 96"

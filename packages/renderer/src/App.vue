@@ -31,7 +31,6 @@ import { computed, ref } from 'vue';
 
 const lastUpdated = ref(null);
 const weatherApiKey = ref(import.meta.env.VITE_APP_OPENWEATHER);
-const instagramToken = ref(import.meta.env.VITE_APP_INSTAGRAM_TOKEN);
 const blueskyUsername = ref(import.meta.env.VITE_APP_BLUESKY_USERNAME);
 const dateStr = computed(() => {
   return lastUpdated.value.toDateString('en-US', { weekday: 'long' });

@@ -1,7 +1,7 @@
 # https://www.electron.build/configuration/configuration
-appId: com.dragongears.vue3-weather-instagram-display
-copyright: Copyright 2016-2023 Arthur J. Dahm III
-productName: vue3WeatherInstagramDisplay
+appId: com.dragongears.vue3-weather-bluesky-display
+copyright: Copyright 2016-2025 Arthur J. Dahm III
+productName: vue3WeatherBlueskyDisplay
 asar: false
 mac:
   icon: build/icons/icon.icns
@@ -39,7 +39,7 @@ linux:
     # - deb
   category: Utility
   packageCategory: utils
-  executableName: vue3-weather-instagram-display
-  synopsis: Vue3 Weather Instagram Display
+  executableName: vue3-weather-bluesky-display
+  synopsis: Vue3 Weather Bluesky Display
 appImage:
   artifactName: ${productName}-${version}-${arch}.${ext}

@@ -203,17 +203,17 @@ See [Contributing Guide](contributing.md).
 ### Raspberry Pi Daemon
 
 ```sh
-/lib/systemd/system/vue3-weather-instagram-display.service
-sudo chmod 644 /lib/systemd/system/vue3-weather-instagram-display.service
+/lib/systemd/system/vue3-weather-bluesky-display.service
+sudo chmod 644 /lib/systemd/system/vue3-weather-bluesky-display.service
 sudo systemctl daemon-reload
-sudo systemctl enable vue3-weather-instagram-display.service
+sudo systemctl enable vue3-weather-bluesky-display.service
 sudo reboot
 ```
-### vue3-weather-instagram-display.service
+### vue3-weather-bluesky-display.service
 
 ```sh
 [Unit]
-Description=Electron Vue Weather and Instagram Display
+Description=Electron Vue Weather and bluesky Display
 Requires=local-fs.target
 After=network.target
 
@@ -227,17 +227,16 @@ RestartSec=10s
 KillMode=process
 Environment=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 Environment=NODE_ENV=production
-WorkingDirectory=/home/pi/vue3-weather-instagram-display
-ExecStart=startx /home/pi/vue3-weather-instagram-display/dist/vue3WeatherInstagramDisplay-0.1.0-armv7l.AppImage
+WorkingDirectory=/home/pi/vue3-weather-bluesky-display
+ExecStart=startx /home/pi/vue3-weather-bluesky-display/dist/vue3WeatherblueskyDisplay-0.1.0-armv7l.AppImage
 
 [Install]
 WantedBy=multi-user.target
 ```
 
-### .env.local
+### .env
 
 ```
 VITE_APP_OPENWEATHER=
-VITE_APP_INSTAGRAM_TOKEN=
-VITE_APP_INSTAGRAM_USERNAME=
+VITE_APP_BLUESKY_USERNAME
 ```

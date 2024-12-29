@@ -9,7 +9,7 @@ const electronConfig = {
   URL_LAUNCHER_KIOSK: process.env.URL_LAUNCHER_KIOSK === '1' ? 1 : 0,
   URL_LAUNCHER_WIDTH: parseInt(process.env.URL_LAUNCHER_WIDTH || 800, 10),
   URL_LAUNCHER_HEIGHT: parseInt(process.env.URL_LAUNCHER_HEIGHT || 480, 10),
-  URL_LAUNCHER_TITLE: process.env.URL_LAUNCHER_TITLE || 'vue3-weather-instagram-display',
+  URL_LAUNCHER_TITLE: process.env.URL_LAUNCHER_TITLE || 'vue3-weather-bluesky-display',
   URL_LAUNCHER_CONSOLE: process.env.URL_LAUNCHER_CONSOLE === '1' ? 1 : 0,
 };
 
