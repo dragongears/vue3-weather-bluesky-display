@@ -15,23 +15,24 @@
       </section>
     </section>
     <section class="right-side">
-      <instagram-image
-        :token="instagramToken"
+      <bluesky-image
+        :token="blueskyUsername"
         :slideshow-max-images="20"
-      ></instagram-image>
+      ></bluesky-image>
     </section>
   </main>
 </template>
 
 <script setup>
 import DateAndTime from './components/DateAndTime.vue';
-import InstagramImage from './components/InstagramImage.vue';
+import BlueskyImage from './components/BlueskyImage.vue';
 import WeatherPanel from './components/WeatherPanel.vue';
 import { computed, ref } from 'vue';
 
 const lastUpdated = ref(null);
 const weatherApiKey = ref(import.meta.env.VITE_APP_OPENWEATHER);
 const instagramToken = ref(import.meta.env.VITE_APP_INSTAGRAM_TOKEN);
+const blueskyUsername = ref(import.meta.env.VITE_APP_BLUESKY_USERNAME);
 const dateStr = computed(() => {
   return lastUpdated.value.toDateString('en-US', { weekday: 'long' });
 });

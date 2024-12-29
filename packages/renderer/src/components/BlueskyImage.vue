@@ -2,7 +2,7 @@
   <ul v-if="images.length > 0" class="slides">
     <li
       v-for="(image, index) in images"
-      :key="image.media_url"
+      :key="image.post.embed.images[0].fullsize"
       class="slide"
       :class="{ 'slide--showing' : index === showing }"
     >
@@ -17,7 +17,7 @@
         Sorry, your browser doesn't support embedded videos.
       </video>
 
-      <img v-else class="slide__img" :ref="el => { slides[index] = el }" :src="image.media_url" alt="" />
+      <img v-else class="slide__img" :ref="el => { slides[index] = el }" :src="image.post.embed.images[0].fullsize" alt="" />
     </li>
   </ul>
   <div v-else>
@@ -27,7 +27,6 @@
 
 <script setup>
 import { onMounted, ref, watch } from 'vue';
-import axios from 'axios';
 
 const props = defineProps({
   slideshowInterval: {
@@ -52,41 +51,55 @@ const emit = defineEmits(['updated']);
 let showing = ref(0);
 let images = ref([]);
 let max = ref(0);
-let message = ref('Waiting for Instagram data');
+let message = ref('Waiting for Bluesky data');
 let videoTimeout = ref(null);
 const slides = ref([]);
 
-function getImages() {
-  const fields =
-    'caption,id,media_type,media_url,permalink,thumbnail_url,timestamp,username';
-  const url = `https://graph.instagram.com/me/media?fields=${fields}&access_token=${props.token}`;
+async function fetchImages() {
+  return new Promise((resolve, reject) => {
+    fetch(`https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?actor=${props.token}`)
+    .then(async (response) => {
+      let responseData = null;
 
-  axios
-    .get(url)
-    .then((response) => {
       if (response.status === 200) {
-        const edges = response.data.data;
-
-        if (edges.length) {
-          images.value = edges;
-
-          if (
-            props.slideshowMaxImages > images.value.length ||
-            props.slideshowMaxImages === 0
-          ) {
-            max.value = images.value.length;
-          } else {
-            max.value = props.slideshowMaxImages;
-          }
-
-          if (showing.value > max.value) {
-            showing.value = max.value - 1;
-          }
-
-          emit('updated', Date.now());
-        }
+        responseData = await response.json();
       } else {
-        message.value = `${response.status}: ${response.statusText}`;
+        reject(new Error(`${response.status}: ${response.statusText}`));
+      }
+
+      // console.log('>>>> responseData.feed', responseData.feed);
+      resolve(responseData);
+    })
+    .catch (error => {
+      console.error('Error fetching Bluesky feed:', error.message);
+      reject(error);
+    })
+  })
+}
+function getImages() {
+  fetchImages()
+    .then((response) => {
+      // console.log('>>>> response', response);
+      const edges = response.feed.filter(f => f.post.embed?.$type === 'app.bsky.embed.images#view' && f.post.record.text.includes('#pidisplay'));
+      // console.log('>>>> edges', edges);
+
+      if (edges.length) {
+        images.value = edges;
+
+        if (
+          props.slideshowMaxImages > images.value.length ||
+          props.slideshowMaxImages === 0
+        ) {
+          max.value = images.value.length;
+        } else {
+          max.value = props.slideshowMaxImages;
+        }
+
+        if (showing.value > max.value) {
+          showing.value = max.value - 1;
+        }
+
+        emit('updated', Date.now());
       }
 
       if (props.updateInterval) {
