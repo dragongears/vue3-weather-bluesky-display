@@ -14,7 +14,7 @@ KillMode=process
 Environment=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 Environment=NODE_ENV=production
 WorkingDirectory=/home/pi/vue3-weather-bluesky-display
-ExecStart=startx /home/pi/vue3-weather-bluesky-display/dist/vue3WeatherblueskyDisplay-0.1.0-armv7l.AppImage
+ExecStart=startx /home/pi/vue3-weather-bluesky-display/dist/vue3WeatherBlueskyDisplay-0.2.0-armv7l.AppImage
 
 [Install]
 WantedBy=multi-user.target
