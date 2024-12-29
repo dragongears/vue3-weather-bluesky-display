@@ -57,7 +57,7 @@ const slides = ref([]);
 
 async function fetchImages() {
   return new Promise((resolve, reject) => {
-    fetch(`https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?actor=${props.token}`)
+    fetch(`https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?actor=${props.token}&filter=posts_with_media`)
     .then(async (response) => {
       let responseData = null;
 
@@ -79,9 +79,9 @@ async function fetchImages() {
 function getImages() {
   fetchImages()
     .then((response) => {
-      // console.log('>>>> response', response);
+      console.log('>>>> response', response);
       const edges = response.feed.filter(f => f.post.embed?.$type === 'app.bsky.embed.images#view' && f.post.record.text.includes('#pidisplay'));
-      // console.log('>>>> edges', edges);
+      console.log('>>>> edges', edges);
 
       if (edges.length) {
         images.value = edges;
