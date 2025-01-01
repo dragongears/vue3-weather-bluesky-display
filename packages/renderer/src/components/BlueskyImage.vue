@@ -61,6 +61,14 @@ function attachHls(edges) {
       const hls = new Hls();
       hls.loadSource(edge.post.embed.playlist);
       hls.attachMedia(slides.value[idx]);
+
+      hls.on(Hls.Events.MANIFEST_PARSED, function() {
+        console.log("Manifest parsed!");
+      });
+
+      hls.on(Hls.Events.ERROR, function(event, data) {
+        console.error("HLS.js error", event, data);
+      });
     }
   })
 }
@@ -88,10 +96,15 @@ async function fetchImages() {
 function getImages() {
   fetchImages()
     .then((response) => {
-      const edges = response.feed.filter(f => (f.post.embed?.$type === 'app.bsky.embed.images#view' || f.post.embed?.$type === 'app.bsky.embed.video#view') && f.post.record.text.includes('#pidisplay'));
+      const edges = response.feed.filter(f =>
+        (f.post.embed?.$type === 'app.bsky.embed.images#view'
+        || (Hls.isSupported() && f.post.embed?.$type === 'app.bsky.embed.video#view'))
+        && f.post.record.text.includes('#pidisplay')
+      );
 
       if (edges.length) {
         images.value = edges;
+
         nextTick(() => {
           attachHls(edges);
         })
