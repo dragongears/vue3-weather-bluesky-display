@@ -2,22 +2,21 @@
   <ul v-if="images.length > 0" class="slides">
     <li
       v-for="(image, index) in images"
-      :key="image.post.embed.images[0].fullsize"
+      :key="image.post.cid"
       class="slide"
       :class="{ 'slide--showing' : index === showing }"
     >
       <video
-        v-if="isVideo(image.media_type)"
+        v-if="isVideo(image)"
         class="slide__video"
         muted
-        :ref="el => { slides[index] = el }"
+        :ref="el => slides[index] = el"
         @ended="videoEnded"
       >
-        <source :src="image.media_url" type="video/mp4" />
         Sorry, your browser doesn't support embedded videos.
       </video>
 
-      <img v-else class="slide__img" :ref="el => { slides[index] = el }" :src="image.post.embed.images[0].fullsize" alt="" />
+      <img v-else class="slide__img" :ref="el => slides[index] = el" :src="image.post.embed.images[0].fullsize" alt="" />
     </li>
   </ul>
   <div v-else>
@@ -26,7 +25,8 @@
 </template>
 
 <script setup>
-import { onMounted, ref, watch } from 'vue';
+import { nextTick, onMounted, ref, watch } from 'vue';
+import Hls from 'hls.js';
 
 const props = defineProps({
   slideshowInterval: {
@@ -55,6 +55,16 @@ let message = ref('Waiting for Bluesky data');
 let videoTimeout = ref(null);
 const slides = ref([]);
 
+function attachHls(edges) {
+  edges.forEach((edge, idx) => {
+    if (edge.post.embed.$type === 'app.bsky.embed.video#view') {
+      const hls = new Hls();
+      hls.loadSource(edge.post.embed.playlist);
+      hls.attachMedia(slides.value[idx]);
+    }
+  })
+}
+
 async function fetchImages() {
   return new Promise((resolve, reject) => {
     fetch(`https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?actor=${props.token}&filter=posts_with_media`)
@@ -67,7 +77,6 @@ async function fetchImages() {
         reject(new Error(`${response.status}: ${response.statusText}`));
       }
 
-      // console.log('>>>> responseData.feed', responseData.feed);
       resolve(responseData);
     })
     .catch (error => {
@@ -79,12 +88,13 @@ async function fetchImages() {
 function getImages() {
   fetchImages()
     .then((response) => {
-      console.log('>>>> response', response);
-      const edges = response.feed.filter(f => f.post.embed?.$type === 'app.bsky.embed.images#view' && f.post.record.text.includes('#pidisplay'));
-      console.log('>>>> edges', edges);
+      const edges = response.feed.filter(f => (f.post.embed?.$type === 'app.bsky.embed.images#view' || f.post.embed?.$type === 'app.bsky.embed.video#view') && f.post.record.text.includes('#pidisplay'));
 
       if (edges.length) {
         images.value = edges;
+        nextTick(() => {
+          attachHls(edges);
+        })
 
         if (
           props.slideshowMaxImages > images.value.length ||
@@ -115,15 +125,14 @@ function getImages() {
     });
 }
 
-function isVideo(type) {
-  return type === 'VIDEO';
+function isVideo(image) {
+  return image.post.embed.$type === 'app.bsky.embed.video#view';
 }
 
 function nextSlide() {
   showing.value = showing.value <= 0 ? max.value - 1 : showing.value - 1;
-  const typeShowing = images.value[showing.value].media_type;
 
-  if (isVideo(typeShowing)) {
+  if (isVideo(images.value[showing.value])) {
     videoTimeout.value = setTimeout(videoEnded, 3 * 60 * 1000);
     slides.value[showing.value].play();
   } else {
