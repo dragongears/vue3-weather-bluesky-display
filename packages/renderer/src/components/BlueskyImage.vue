@@ -196,7 +196,6 @@ onMounted(() =>{
 }
 
 .slide__video {
-  margin-top: 20px;
   max-height: 440px;
   max-width: 100%;
   width: 100%;
