@@ -34,17 +34,17 @@ app.commandLine.appendSwitch("disable-software-rasterizer");
 app.disableHardwareAcceleration();
 
 // Install "Vue.js devtools"
-if (isDevelopment) {
-  app.whenReady()
-    .then(() => import('electron-devtools-installer'))
-    .then(({default: installExtension, VUEJS3_DEVTOOLS}) => installExtension('nhdogjmejiglipccpnnnanhbledajbpd', {
-    loadExtensionOptions: {
-      allowFileAccess: true,
-      // forceDownload: true, // 👈
-    },
-  }))
-    .catch(e => console.error('Failed install extension:', e));
-}
+// if (isDevelopment) {
+//   app.whenReady()
+//     .then(() => import('electron-devtools-installer'))
+//     .then(({default: installExtension, VUEJS3_DEVTOOLS}) => installExtension('nhdogjmejiglipccpnnnanhbledajbpd', {
+//     loadExtensionOptions: {
+//       allowFileAccess: true,
+//       // forceDownload: true, // 👈
+//     },
+//   }))
+//     .catch(e => console.error('Failed install extension:', e));
+// }
 
 let mainWindow = null;
 
@@ -62,6 +62,7 @@ const createWindow = async () => {
       nativeWindowOpen: true,
       preload: join(__dirname, '../../preload/dist/index.cjs'),
     },
+    icon: join(__dirname, '../../renderer/assets/box-gears-256.png') // Update this path to your icon file
   });
 
   /**

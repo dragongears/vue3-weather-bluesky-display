@@ -1,5 +1,5 @@
 <template>
-  <section class="weather">
+  <section class="weather font-bold">
     <div v-if="weather" class="weather__data">
       <weather-current
         :icon-color="iconColor"
@@ -89,9 +89,3 @@ onMounted(() =>{
   getWeather()
 });
 </script>
-
-<style lang="scss">
-.weather {
-  font-weight: bold;
-}
-</style>

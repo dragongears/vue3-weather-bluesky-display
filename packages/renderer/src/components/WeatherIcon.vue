@@ -88,6 +88,3 @@ const path = computed(() => {
   return conditions[props.condition] || conditions.na;
 });
 </script>
-
-<style lang="scss">
-</style>

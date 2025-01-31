@@ -1,7 +1,7 @@
 <template>
-  <section class="dt">
-    <div class="dt__time">{{ timeStr }}</div>
-    <div class="dt__date">{{ dateStr }}</div>
+  <section class="text-center font-bold mb-4 mt-[-8px]">
+    <div class="mb-2 text-6xl">{{ timeStr }}</div>
+    <div class="text-3xl">{{ dateStr }}</div>
   </section>
 </template>
 
@@ -30,22 +30,3 @@ onMounted(() => {
   intervalFunc();
 });
 </script>
-
-<style lang="scss">
-.dt {
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  font-weight: bold;
-  margin-bottom: 1rem;
-  margin-top: -14px;
-}
-
-.dt__date {
-  font-size: 2rem;
-}
-
-.dt__time {
-  font-size: 4rem;
-}
-</style>
