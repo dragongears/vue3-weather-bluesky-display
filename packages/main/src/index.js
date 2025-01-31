@@ -1,10 +1,9 @@
 import {app, BrowserWindow, Menu, shell} from 'electron';
 import {join} from 'path';
 import {URL} from 'url';
-import { installExtension, VUEJS_DEVTOOLS } from 'electron-devtools-installer';
+import isDev from 'electron-is-dev';
 
 const isSingleInstance = app.requestSingleInstanceLock();
-const isDevelopment = import.meta.env.MODE === 'development';
 const electronConfig = {
   URL_LAUNCHER_FRAME: 1, //process.env.URL_LAUNCHER_FRAME === '1' ? 1 : 0,
   URL_LAUNCHER_KIOSK: process.env.URL_LAUNCHER_KIOSK === '1' ? 1 : 0,
@@ -14,7 +13,7 @@ const electronConfig = {
   URL_LAUNCHER_CONSOLE: process.env.URL_LAUNCHER_CONSOLE === '1' ? 1 : 0,
 };
 
-if (isDevelopment) {
+if (isDev) {
   /*eslint no-console:0*/
   console.log('Running in development mode');
   Object.assign(electronConfig, {
@@ -34,18 +33,16 @@ if (!isSingleInstance) {
 app.commandLine.appendSwitch("disable-software-rasterizer");
 app.disableHardwareAcceleration();
 
-// Install "Vue.js devtools"
-if (isDevelopment) {
-  app.whenReady().then(() => {
-    installExtension(VUEJS_DEVTOOLS, {
-      loadExtensionOptions: {
-        allowFileAccess: true,
-        // forceDownload: true, // 👈
-      }
-    })
-    .then((ext) => console.log(`Added Extension:  ${ext.name}`))
-    .catch((err) => console.log('An error occurred: ', err));
-  });
+if (isDev) {
+  app.whenReady()
+    .then(() => import('electron-devtools-installer'))
+    .then(({default: installExtension, VUEJS_DEVTOOLS}) => installExtension(VUEJS_DEVTOOLS, {
+    loadExtensionOptions: {
+      allowFileAccess: true,
+      // forceDownload: true, // 👈
+    },
+  }))
+  .catch(e => console.error('Failed install extension:', e));
 }
 
 let mainWindow = null;
@@ -76,7 +73,7 @@ const createWindow = async () => {
   mainWindow.on('ready-to-show', () => {
     mainWindow?.show();
 
-    if (isDevelopment) {
+    if (isDev) {
       mainWindow?.webContents.openDevTools();
     }
   });
@@ -86,7 +83,7 @@ const createWindow = async () => {
    * Vite dev server for development.
    * `file://../renderer/index.html` for production and test
    */
-  const pageUrl = isDevelopment && import.meta.env.VITE_DEV_SERVER_URL !== undefined
+  const pageUrl = isDev && import.meta.env.VITE_DEV_SERVER_URL !== undefined
     ? import.meta.env.VITE_DEV_SERVER_URL
     : new URL('../renderer/dist/index.html', 'file://' + __dirname).toString();
 
