@@ -1,6 +1,7 @@
 import {app, BrowserWindow, Menu, shell} from 'electron';
 import {join} from 'path';
 import {URL} from 'url';
+import { installExtension, VUEJS_DEVTOOLS } from 'electron-devtools-installer';
 
 const isSingleInstance = app.requestSingleInstanceLock();
 const isDevelopment = import.meta.env.MODE === 'development';
@@ -34,17 +35,18 @@ app.commandLine.appendSwitch("disable-software-rasterizer");
 app.disableHardwareAcceleration();
 
 // Install "Vue.js devtools"
-// if (isDevelopment) {
-//   app.whenReady()
-//     .then(() => import('electron-devtools-installer'))
-//     .then(({default: installExtension, VUEJS3_DEVTOOLS}) => installExtension('nhdogjmejiglipccpnnnanhbledajbpd', {
-//     loadExtensionOptions: {
-//       allowFileAccess: true,
-//       // forceDownload: true, // 👈
-//     },
-//   }))
-//     .catch(e => console.error('Failed install extension:', e));
-// }
+if (isDevelopment) {
+  app.whenReady().then(() => {
+    installExtension(VUEJS_DEVTOOLS, {
+      loadExtensionOptions: {
+        allowFileAccess: true,
+        // forceDownload: true, // 👈
+      }
+    })
+    .then((ext) => console.log(`Added Extension:  ${ext.name}`))
+    .catch((err) => console.log('An error occurred: ', err));
+  });
+}
 
 let mainWindow = null;
 
