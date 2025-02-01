@@ -42,6 +42,7 @@
   "dependencies": {
     "autoprefixer": "^10.4.20",
     "cssnano": "^5.1.15",
+    "electron-is-dev": "^3.0.1",
     "electron-updater": "4.6.2",
     "hls.js": "^1.6.0-beta.2.0.canary.10863",
     "postcss": "^8.5.1",
