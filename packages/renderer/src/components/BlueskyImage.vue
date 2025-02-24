@@ -1,14 +1,14 @@
 <template>
-  <ul v-if="images.length > 0" class="slides">
+  <ul v-if="images.length > 0" class="relative list-none">
     <li
       v-for="(image, index) in images"
       :key="image.post.cid"
-      class="slide"
-      :class="{ 'slide--showing' : index === showing }"
+      class="absolute inset-0 transition-opacity duration-1000 text-center"
+      :class="{ 'opacity-100 z-20' : index === showing, 'opacity-0 z-10' : index !== showing }"
     >
       <video
         v-if="isVideo(image)"
-        class="slide__video"
+        class="w-full max-w-full max-h-[440px]"
         muted
         :ref="el => slides[index] = el"
         @ended="videoEnded"
@@ -16,7 +16,7 @@
         Sorry, your browser doesn't support embedded videos.
       </video>
 
-      <img v-else class="slide__img" :ref="el => slides[index] = el" :src="image.post.embed.images[0].fullsize" alt="" />
+      <img v-else class="max-w-full max-h-[448px] h-auto" :ref="el => slides[index] = el" :src="image.post.embed.images[0].fullsize" alt="" />
     </li>
   </ul>
   <div v-else>
@@ -172,39 +172,3 @@ onMounted(() =>{
   getImages()
 });
 </script>
-
-<style lang="scss">
-.slides {
-  list-style-type: none;
-  position: relative;
-}
-
-.slide {
-  left: 0px;
-  opacity: 0;
-  position: absolute;
-  text-align: center;
-  top: 0px;
-  transition: opacity 1s;
-  width: 100%;
-  z-index: 1;
-}
-
-.slide--showing {
-  opacity: 1;
-  z-index: 2;
-}
-
-.slide__video {
-  max-height: 440px;
-  max-width: 100%;
-  width: 100%;
-}
-
-.slide__img {
-  height: auto;
-  max-height: 448px;
-  max-width: 100%;
-}
-
-</style>
