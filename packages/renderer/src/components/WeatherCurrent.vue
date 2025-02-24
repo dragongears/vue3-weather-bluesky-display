@@ -15,7 +15,7 @@
           {{ Math.floor((weather.daily[0].pop * 100) / 5) * 5 }}%
         </div>
       </div>
-      <div class="text-4xl">{{ Math.floor(weather.current.temp) }}°</div>
+      <div class="text-6xl">{{ Math.floor(weather.current.temp) }}°</div>
       <div class="ml-6 text-xl">
         <div>Hi {{ Math.floor(weather.daily[0].temp.max) }}°</div>
         <div>Lo {{ Math.floor(weather.daily[0].temp.min) }}°</div>

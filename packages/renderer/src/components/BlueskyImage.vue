@@ -16,7 +16,7 @@
         Sorry, your browser doesn't support embedded videos.
       </video>
 
-      <img v-else class="max-w-full max-h-[448px] h-auto" :ref="el => slides[index] = el" :src="image.post.embed.images[0].fullsize" alt="" />
+      <img v-else class="max-w-full max-h-[448px] m-auto" :ref="el => slides[index] = el" :src="image.post.embed.images[0].fullsize" alt="" />
     </li>
   </ul>
   <div v-else>

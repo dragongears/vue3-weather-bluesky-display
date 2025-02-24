@@ -6,8 +6,8 @@
         <weather-icon
           :color="props.iconColor"
           :condition="day.weather[0].icon"
-          height="20"
-          width="20"
+          height="30"
+          width="30"
         ></weather-icon>
         <div class="mb-2">
           {{ Math.floor((day.pop * 100) / 5) * 5 }}%
