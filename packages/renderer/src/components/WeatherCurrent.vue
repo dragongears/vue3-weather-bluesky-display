@@ -1,6 +1,6 @@
 <template>
-  <section class="flex flex-col items-center mb-4 text-2xl">
-    <div class="flex flex-col items-center text-xl">
+  <section class="flex flex-col items-center mb-4">
+    <div class="flex flex-col items-center text-2xl">
       {{ capitalize(weather.current.weather[0].description) }}
     </div>
     <div class="flex items-center justify-center">
