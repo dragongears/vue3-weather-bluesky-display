@@ -1,5 +1,5 @@
 <template>
-  <main class="flex justify-between gap-4 h-screen max-h-[480px] max-w-[800px] w-screen p-4 m-auto font-sans">
+  <main class="flex justify-between gap-4 h-screen max-h-[480px] max-w-[800px] w-screen p-4 m-auto">
     <section class="flex flex-col min-w-[220px] w-full">
       <DateAndTime></DateAndTime>
       <WeatherPanel
