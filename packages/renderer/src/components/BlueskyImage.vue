@@ -93,6 +93,7 @@ async function fetchImages() {
     })
   })
 }
+
 function getImages() {
   fetchImages()
     .then((response) => {
@@ -102,24 +103,31 @@ function getImages() {
         && f.post.record.text.includes('#pidisplay')
       );
 
+
+
       if (edges.length) {
-        images.value = edges;
+        const hasDifference = images.value.length !== edges.length || images.value.some((img, idx) => img.post.uri !== edges[idx].post.uri);
 
-        nextTick(() => {
-          attachHls(edges);
-        })
+        if (hasDifference) {
+          images.value = edges;
 
-        if (
-          props.slideshowMaxImages > images.value.length ||
-          props.slideshowMaxImages === 0
-        ) {
-          max.value = images.value.length;
-        } else {
-          max.value = props.slideshowMaxImages;
-        }
+          nextTick(() => {
+            attachHls(edges);
+          })
 
-        if (showing.value > max.value) {
-          showing.value = max.value - 1;
+          if (
+            props.slideshowMaxImages > images.value.length ||
+            props.slideshowMaxImages === 0
+          ) {
+            max.value = images.value.length;
+          } else {
+            max.value = props.slideshowMaxImages;
+          }
+
+          if (showing.value > max.value) {
+            showing.value = max.value - 1;
+          }
+
         }
 
         emit('updated', Date.now());
