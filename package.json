@@ -20,7 +20,8 @@
     "watch": "node scripts/watch.js",
     "serve": "vite serve packages/renderer",
     "lint": "eslint . --ext js,ts,vue",
-    "rsync": "rsync -vaz --rsh=\"ssh -l pi\" ~/Dropbox/Projects/node/vue3-weather-bluesky-display 192.168.0.81:/home/pi --exclude=node_modules"
+    "rsync": "node scripts/rsync.js",
+    "site-rsync": "node scripts/rsync.js --port=SITE_SSH_PORT --user=SITE_SSH_USER --source=SITE_SOURCE_PATH --destination=SITE_DESTINATION_PATH"
   },
   "browserslist": [
     "Chrome 96"
@@ -42,6 +43,7 @@
   "dependencies": {
     "autoprefixer": "^10.4.20",
     "cssnano": "^5.1.15",
+    "dotenv": "^16.4.7",
     "electron-is-dev": "^3.0.1",
     "electron-updater": "4.6.2",
     "hls.js": "^1.6.0-beta.2.0.canary.10863",
