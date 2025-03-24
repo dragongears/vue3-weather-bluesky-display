@@ -22,7 +22,7 @@
 <script setup>
 import WeatherCurrent from './WeatherCurrent.vue';
 import WeatherForecast from './WeatherForecast.vue';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import capitalize from '../utils/capitalize';
 
 const props = defineProps({
@@ -31,11 +31,11 @@ const props = defineProps({
     required: true,
   },
   latitude: {
-    type: String,
+    type: Number,
     required: true,
   },
   longitude: {
-    type: String,
+    type: Number,
     required: true,
   },
   updateInterval: {
@@ -48,6 +48,11 @@ const iconColor = ref('#35495e');
 let message = ref('Waiting for weather data');
 let weather = ref(null);
 
+watch(() => props.latitude, (newVal) => {
+  if (newVal > 0) {
+    getWeather();
+  }
+});
 
 async function fetchWeather() {
   try {
@@ -86,6 +91,6 @@ function getWeather() {
 }
 
 onMounted(() =>{
-  getWeather()
+  // getWeather()
 });
 </script>

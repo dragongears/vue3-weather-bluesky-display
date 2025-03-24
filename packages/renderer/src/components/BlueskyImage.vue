@@ -62,9 +62,9 @@ function attachHls(edges) {
       hls.loadSource(edge.post.embed.playlist);
       hls.attachMedia(slides.value[idx]);
 
-      hls.on(Hls.Events.MANIFEST_PARSED, function() {
-        console.log("Manifest parsed!");
-      });
+      // hls.on(Hls.Events.MANIFEST_PARSED, function() {
+      //   console.log("Manifest parsed!");
+      // });
 
       hls.on(Hls.Events.ERROR, function(event, data) {
         console.error("HLS.js error", event, data);
